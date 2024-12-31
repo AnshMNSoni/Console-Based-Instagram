@@ -2,7 +2,7 @@ import 'dart:io';
 
 Map<String, dynamic> profiles = {};
 bool found = false;
-bool update_found = true;
+bool update_found = false;
 bool delete_found = false;
 
 void main(List<String> args) {
@@ -29,7 +29,7 @@ void main(List<String> args) {
           // For Each: Type-1
           for (var check in check_profiles) {
             if (check == name) {
-              print("This Profile-Name is already exists...");
+              print("This Profile is already exists...");
               found = true;
               break;
             }
@@ -86,7 +86,7 @@ void createprofile(String? name) {
     profiles[name].update("weight", (value) => value, ifAbsent: () => weight);
   }
 
-  print("Profile Successfully Created...");
+  print("\nProfile Successfully Created...");
 }
 
 void updateprofile() {
@@ -98,13 +98,12 @@ void updateprofile() {
   // For Each: Type-1
   for (var check in check_profiles) {
     if (check == update_name) {
-      print("Profile already exists...");
-      update_found = false;
+      update_found = true;
       break;
     }
   }
 
-  if (!update_found) {
+  if (update_found) {
     stdout.write("Enter the name of the entity to update: ");
     String? update_entity = stdin.readLineSync();
 
@@ -113,9 +112,9 @@ void updateprofile() {
 
     profiles[update_name][update_entity] = new_value;
 
-    print("Profile Successfully Updated...");
+    print("\nProfile Successfully Updated...");
   } else {
-    print("\nProfile-Name not found!\n");
+    print("\nProfile not found!\n");
     stdout.write("Want to create profile with this name? Type y/n: ");
     String? yesno = stdin.readLineSync();
 
@@ -128,28 +127,29 @@ void updateprofile() {
 
 void readprofile() {
   stdout.write("Enter profile name: ");
-  String? delete_profile = stdin.readLineSync();
+  String? profile_name = stdin.readLineSync();
 
   dynamic check_profiles = profiles.keys.toList();
 
   // For Each: Type-1
   for (var check in check_profiles) {
-    if (check == delete_profile) {
-      delete_found = true;
+    if (check == profile_name) {
+      found = true;
       break;
     }
   }
-  
-  stdout.write("Enter your profile name: ");
-  String? profile_name = stdin.readLineSync();
-  dynamic check_profile = profiles.keys.toList();
+  if (!found) {
+    print("\nProfile doesnot exists...\n");
+    stdout.write("Want to create profile with this name? Type y/n: ");
+    String? yesno = stdin.readLineSync();
 
-  // For each: Type-2
-  check_profile.forEach((check) {
-    if (profile_name == check) {
-      print(profiles[profile_name]);
+    if (yesno == "y") {
+      profiles.update("$profile_name", (value) => value, ifAbsent: () => {});
+      createprofile(profile_name);
     }
-  });
+  } else {
+    print(profiles[profile_name]);
+  }
 }
 
 void deleteprofile() {
@@ -168,9 +168,9 @@ void deleteprofile() {
   if (delete_found) {
     profiles.remove(delete_profile);
     delete_found = false;
-    print("Profile Successfully Deleted...");
+    print("\nProfile Successfully Deleted...");
   } else {
-    print("Profile doesnot exists...\n");
+    print("\nProfile doesnot exists...\n");
     stdout.write("Want to create profile with this name? Type y/n: ");
     String? yesno = stdin.readLineSync();
 
