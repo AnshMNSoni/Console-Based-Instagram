@@ -4,25 +4,21 @@ class Profile {
   Map<String, dynamic> profiles = {
     "Priyank": {
       "Profile Type": "private",
-      "name": "Priyank",
       "email": "patelpriyank1602@gmail.com",
       "DOB": "16/02/2005"
     },
     "Nitish": {
       "Profile Type": "public",
-      "name": "Nitish",
       "email": "nitish_talpada@gmail.com",
       "DOB": "31/03/2005"
     },
     "Yug": {
       "Profile Type": "private",
-      "name": "Yug",
       "email": "patelyug@gmail.com",
       "DOB": "22/07/2005"
     },
     "Prince": {
       "Profile Type": "public",
-      "name": "Prince",
       "email": "princepatel2005@gmail.com",
       "DOB": "16/02/2005"
     }
@@ -49,6 +45,10 @@ class Profile {
       stdout.write("\nEnter your choice: ");
       String? choice = stdin.readLineSync();
 
+      if (choice == "") {
+        onetime = true;
+      }
+
       if (choice != null) {
         try {
           int input = int.parse(choice);
@@ -62,7 +62,7 @@ class Profile {
 
             for (var check in check_profiles) {
               if (check == search) {
-                print("${search}'s Profile: ${profiles[search]}");
+                print("${search}: ${profiles[search]}");
                 searchprofile = true;
               }
             }
@@ -73,7 +73,7 @@ class Profile {
           } else if (input == 2) {
             // Your Profile
             while (insideprofile) {
-              print("Your Profile: ${profiles[profilename]}");
+              print("$profilename: ${profiles[profilename]}");
               print("\n1. Update Profile");
               print("2. Delete Profile");
               print("3. Main Menu");
@@ -113,15 +113,21 @@ class Profile {
                     insideprofile = false;
                   }
                 } catch (e) {
-                  print("Enter valid Input!");
+                  print("Enter valid Input!\n");
                 }
               }
             }
+            insideprofile = true;
           } else if (input == 0) {
             // Create Profile
 
             stdout.write("Enter your name: ");
             profilename = stdin.readLineSync();
+
+            if (profilename == "") {
+              print("Profile name cannot be null!\n");
+              Profile();
+            }
 
             dynamic check_profiles = profiles.keys.toList();
 
@@ -138,11 +144,9 @@ class Profile {
               createprofile();
             }
             found = false;
-          } else {
-            print("Enter valid Input!");
           }
         } catch (e) {
-          print("Enter valid input!");
+          print("Enter valid input!\n");
         }
       }
     }
@@ -159,21 +163,26 @@ class Profile {
       createprofile();
     }
 
-    profiles[profilename]
-        .update("name", (value) => value, ifAbsent: () => profilename);
-
     stdout.write("Enter your email: ");
     String? email = stdin.readLineSync();
     profiles[this.profilename]
         .update("email", (value) => value, ifAbsent: () => email);
 
+
     stdout.write("Set your password: ");
     password = stdin.readLineSync();
 
-    stdout.write("Enter your Date Of Birth (DOB): ");
-    String? dob = stdin.readLineSync();
-    profiles[this.profilename]
-        .update("DOB", (value) => value, ifAbsent: () => dob);
+    stdout.write("Enter your Year of Born: ");
+    String? y_dob = stdin.readLineSync();
+
+    stdout.write("Enter your Month of Born: ");
+    String? m_dob = stdin.readLineSync();
+
+    stdout.write("Enter your Day of Born: ");
+    String? d_dob = stdin.readLineSync();
+
+    profiles[this.profilename].update("DOB", (value) => value,
+        ifAbsent: () => "$d_dob/$m_dob/$y_dob");
 
     print("\nProfile Successfully Created...");
   }
@@ -188,10 +197,6 @@ class Profile {
     profiles[profilename][update_entity] = new_value;
 
     print("\nProfile Successfully Updated...");
-  }
-
-  void readprofile() {
-    print(profiles[profilename]);
   }
 
   void deleteprofile() {
