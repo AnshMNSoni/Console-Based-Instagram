@@ -2,22 +2,22 @@ import 'dart:io';
 
 class Profile {
   Map<String, dynamic> profiles = {
-    "Priyank": {
+    "priyank_16": {
       "Profile Type": "private",
       "email": "patelpriyank1602@gmail.com",
       "DOB": "16/02/2005"
     },
-    "Nitish": {
+    "_nitish31": {
       "Profile Type": "public",
       "email": "nitish_talpada@gmail.com",
       "DOB": "31/03/2005"
     },
-    "Yug": {
+    "Yug_patel": {
       "Profile Type": "private",
       "email": "patelyug@gmail.com",
       "DOB": "22/07/2005"
     },
-    "Prince": {
+    "prince_6_patel": {
       "Profile Type": "public",
       "email": "princepatel2005@gmail.com",
       "DOB": "16/02/2005"
@@ -29,7 +29,7 @@ class Profile {
   bool onetime = true;
   bool insideprofile = true;
   bool searchprofile = false;
-  String? password = null;
+  String? password;
 
   Profile() {
     while (true) {
@@ -121,11 +121,27 @@ class Profile {
           } else if (input == 0) {
             // Create Profile
 
+            print(
+                "\n📌 Profile Name Instructions:\nLength of Proile Name [8-20] and contains atleast one [A-Z], [a-z] and [0-9] and doesnot contains [@#%^&*\$]\n");
+
             stdout.write("Enter your name: ");
             profilename = stdin.readLineSync();
 
             if (profilename == "") {
               print("Profile name cannot be null!\n");
+              Profile();
+            }
+
+            final String? local_profile = profilename;
+
+            if (local_profile == null ||
+                !(local_profile.length >= 8 &&
+                    local_profile.length <= 20 &&
+                    local_profile.contains(RegExp(r'[_]')) &&
+                    local_profile.contains(RegExp(r'[0-9]')) &&
+                    local_profile.contains(RegExp(r'[A-Z]')) &&
+                    local_profile.contains(RegExp(r'[a-z]')))) {
+              print("Invalid format\n");
               Profile();
             }
 
@@ -165,15 +181,40 @@ class Profile {
 
     stdout.write("Enter your email: ");
     String? email = stdin.readLineSync();
+    if (email != null && !(email.contains("@") && email.contains(".com"))) {
+      print("Invalid Format!\n");
+      profiles.remove(profilename);
+      Profile();
+    }
+
     profiles[this.profilename]
         .update("email", (value) => value, ifAbsent: () => email);
 
-
-    stdout.write("Set your password: ");
+    print(
+        "\n📌 Password Instructions:\nLength of password [8-20] and contains atleast one [A-Z], [a-z], [0-9] and [@#%^&*\$]\n");
+    stdout.write("Set Strong password: ");
     password = stdin.readLineSync();
 
-    stdout.write("Enter your Year of Born: ");
+    final localPassword = password;
+
+    if (localPassword == null ||
+        !(localPassword.length >= 8 &&
+            localPassword.length <= 20 &&
+            localPassword.contains(RegExp(r'[@#%^&*$]')) &&
+            localPassword.contains(RegExp(r'[A-Z]')) &&
+            localPassword.contains(RegExp(r'[0-9]')) &&
+            localPassword.contains(RegExp(r'[a-z]')))) {
+      print("Invalid format\n");
+      Profile();
+    }
+
+    print("Password Set Successfully...");
+
+    stdout.write("\nEnter your Year of Born: ");
     String? y_dob = stdin.readLineSync();
+    if (y_dob != null) {
+      int dob_y = int.parse(y_dob);
+    }
 
     stdout.write("Enter your Month of Born: ");
     String? m_dob = stdin.readLineSync();
