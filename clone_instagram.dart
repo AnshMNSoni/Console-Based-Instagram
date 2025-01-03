@@ -1,17 +1,51 @@
 import 'dart:io';
 
 class Profile {
-  Map<String, dynamic> profiles = {};
+  Map<String, dynamic> profiles = {
+    "Priyank": {
+      "Profile Type": "private",
+      "name": "Priyank",
+      "email": "patelpriyank1602@gmail.com",
+      "DOB": "16/02/2005"
+    },
+    "Nitish": {
+      "Profile Type": "public",
+      "name": "Nitish",
+      "email": "nitish_talpada@gmail.com",
+      "DOB": "31/03/2005"
+    },
+    "Yug": {
+      "Profile Type": "private",
+      "name": "Yug",
+      "email": "patelyug@gmail.com",
+      "DOB": "22/07/2005"
+    },
+    "Prince": {
+      "Profile Type": "public",
+      "name": "Prince",
+      "email": "princepatel2005@gmail.com",
+      "DOB": "16/02/2005"
+    }
+  };
+
   String? profilename;
   bool found = false;
+  bool onetime = true;
+  bool insideprofile = true;
+  bool searchprofile = false;
+  String? password = null;
+
   Profile() {
     while (true) {
-      print("\n1. Create Profile");
-      print("2. Update Profile");
-      print("3. Your Profile");
-      print("4. Delete Profile");
-      print("5. Search Profile");
-      print("6. Exist Profile");
+      if (!onetime) {
+        print("\n1. Search Profile");
+        print("2. Your Profile");
+      }
+      if (onetime) {
+        print("0. Create Profile:");
+        onetime = false;
+      }
+
       stdout.write("\nEnter your choice: ");
       String? choice = stdin.readLineSync();
 
@@ -20,13 +54,77 @@ class Profile {
           int input = int.parse(choice);
 
           if (input == 1) {
+            // Search Profile
+            stdout.write("\nEnter the profile name: ");
+            String? search = stdin.readLineSync();
+
+            dynamic check_profiles = profiles.keys.toList();
+
+            for (var check in check_profiles) {
+              if (check == search) {
+                print("${search}'s Profile: ${profiles[search]}");
+                searchprofile = true;
+              }
+            }
+            if (!searchprofile) {
+              print("Profile Not Found!");
+            }
+            searchprofile = false;
+          } else if (input == 2) {
+            // Your Profile
+            while (insideprofile) {
+              print("Your Profile: ${profiles[profilename]}");
+              print("\n1. Update Profile");
+              print("2. Delete Profile");
+              print("3. Main Menu");
+
+              stdout.write("\nEnter your choice: ");
+              String? choice = stdin.readLineSync();
+
+              if (choice != null) {
+                try {
+                  int input = int.parse(choice);
+
+                  if (input == 1) {
+                    // Update Profile
+                    updateprofile();
+                  } else if (input == 2) {
+                    stdout.write(
+                        "Are you sure you want to delete the profile: Type [y/n] ");
+
+                    String? delete_profile = stdin.readLineSync();
+
+                    if (delete_profile == "y") {
+                      stdout.write("Enter your profile password: ");
+                      String? pass = stdin.readLineSync();
+
+                      if (pass == password) {
+                        profiles.remove(profilename);
+
+                        print("\nProfile Successfully Deleted...\n");
+                        found = false;
+                        onetime = true;
+                        insideprofile = true;
+                        break;
+                      }
+                    }
+                  } else if (input == 3) {
+                    // Goto Mainmenu
+                    insideprofile = false;
+                  }
+                } catch (e) {
+                  print("Enter valid Input!");
+                }
+              }
+            }
+          } else if (input == 0) {
             // Create Profile
+
             stdout.write("Enter your name: ");
             profilename = stdin.readLineSync();
 
             dynamic check_profiles = profiles.keys.toList();
 
-            // For Each: Type-1
             for (var check in check_profiles) {
               if (check == profilename) {
                 print("This Profile is already exists...");
@@ -40,29 +138,6 @@ class Profile {
               createprofile();
             }
             found = false;
-          } else if (input == 2) {
-            // Update Profile
-            updateprofile();
-          } else if (input == 3) {
-            // Read Profile
-            readprofile();
-          } else if (input == 4) {
-            // Delete Profile
-            deleteprofile();
-          } else if (input == 5) {
-            dynamic profile_exists = profiles.keys.toList();
-
-            stdout.write("Search for profile: ");
-            String? search = stdin.readLineSync();
-
-            for (var check in profile_exists) {
-              if (check == search) {
-                print("Yes profile found!");
-              }
-            }
-          } else if (input == 6) {
-            // Exisitng
-            break;
           } else {
             print("Enter valid Input!");
           }
@@ -74,49 +149,43 @@ class Profile {
   }
 
   void createprofile() {
-    stdout.write("Enter your age: ");
-    String? str_age = stdin.readLineSync();
-    if (str_age != null) {
-      dynamic age = int.parse(str_age);
-      profiles[this.profilename]
-          .update("age", (value) => value, ifAbsent: () => age);
+    stdout.write("Profile Type: [public, private] ");
+    String? profile_type = stdin.readLineSync();
+    if (profile_type == "public" || profile_type == "private") {
+      profiles[this.profilename].update("Profile Type", (value) => value,
+          ifAbsent: () => profile_type);
+    } else {
+      print("Please enter properly!\n");
+      createprofile();
     }
+
+    profiles[profilename]
+        .update("name", (value) => value, ifAbsent: () => profilename);
 
     stdout.write("Enter your email: ");
     String? email = stdin.readLineSync();
     profiles[this.profilename]
         .update("email", (value) => value, ifAbsent: () => email);
 
-    stdout.write("Enter your height: ");
-    String? str_height = stdin.readLineSync();
-    if (str_height != null) {
-      dynamic height = double.parse(str_height);
-      profiles[this.profilename]
-          .update("height", (value) => value, ifAbsent: () => height);
-    }
+    stdout.write("Set your password: ");
+    password = stdin.readLineSync();
 
-    stdout.write("Enter your weight: ");
-    String? str_weight = stdin.readLineSync();
-    if (str_weight != null) {
-      dynamic weight = double.parse(str_weight);
-      profiles[this.profilename]
-          .update("weight", (value) => value, ifAbsent: () => weight);
-    }
+    stdout.write("Enter your Date Of Birth (DOB): ");
+    String? dob = stdin.readLineSync();
+    profiles[this.profilename]
+        .update("DOB", (value) => value, ifAbsent: () => dob);
 
     print("\nProfile Successfully Created...");
   }
 
   void updateprofile() {
-    stdout.write("Enter profile name: ");
-    String? update_name = stdin.readLineSync();
-
     stdout.write("Enter the name of the entity to update: ");
     String? update_entity = stdin.readLineSync();
 
     stdout.write("Enter the new value: ");
     dynamic new_value = stdin.readLineSync();
 
-    profiles[update_name][update_entity] = new_value;
+    profiles[profilename][update_entity] = new_value;
 
     print("\nProfile Successfully Updated...");
   }
@@ -126,13 +195,19 @@ class Profile {
   }
 
   void deleteprofile() {
-    // password feature - pending
-    stdout.write("Sure! Want to delete the prfoile? Type y/n: ");
-    String? yesno = stdin.readLineSync();
+    stdout.write("Enter your Password: ");
+    String? check_password = stdin.readLineSync();
 
-    if (yesno == "y") {
-      profiles.remove(profilename);
-      print("\nProfile Successfully Deleted...");
+    if (password == check_password) {
+      stdout.write("Sure! Want to delete the prfoile? Type y/n: ");
+      String? yesno = stdin.readLineSync();
+
+      if (yesno == "y") {
+        profiles.remove(profilename);
+        print("\nProfile Successfully Deleted...");
+      }
+    } else {
+      print("Password is incorrect!");
     }
   }
 }
