@@ -205,6 +205,7 @@ class Profile {
             localPassword.contains(RegExp(r'[0-9]')) &&
             localPassword.contains(RegExp(r'[a-z]')))) {
       print("Invalid format\n");
+      profiles.remove(profilename);
       Profile();
     }
 
@@ -214,13 +215,37 @@ class Profile {
     String? y_dob = stdin.readLineSync();
     if (y_dob != null) {
       int dob_y = int.parse(y_dob);
+
+      if (!(dob_y <= 2024 && dob_y >= 0)) {
+        print("Invalid Year");
+        profiles.remove(profilename);
+        Profile();
+      }
     }
 
-    stdout.write("Enter your Month of Born: ");
+    stdout.write("\nEnter your Month of Born: ");
     String? m_dob = stdin.readLineSync();
+    if (m_dob != null) {
+      int dob_m = int.parse(m_dob);
 
-    stdout.write("Enter your Day of Born: ");
+      if (!(dob_m <= 12 && dob_m >= 1)) {
+        print("Invalid Month");
+        profiles.remove(profilename);
+        Profile();
+      }
+    }
+
+    stdout.write("\nEnter your Day of Born: ");
     String? d_dob = stdin.readLineSync();
+    if (d_dob != null) {
+      int dob_d = int.parse(d_dob);
+
+      if (!(dob_d <= 31 && dob_d >= 1)) {
+        print("Invalid Day");
+        profiles.remove(profilename);
+        Profile();
+      }
+    }
 
     profiles[this.profilename].update("DOB", (value) => value,
         ifAbsent: () => "$d_dob/$m_dob/$y_dob");
@@ -229,6 +254,7 @@ class Profile {
   }
 
   void updateprofile() {
+    // Locha che ama
     stdout.write("Enter the name of the entity to update: ");
     String? update_entity = stdin.readLineSync();
 
