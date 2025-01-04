@@ -120,46 +120,8 @@ class Profile {
             insideprofile = true;
           } else if (input == 0) {
             // Create Profile
-
-            print(
-                "\n📌 Profile Name Instructions:\nLength of Proile Name [8-20] and contains atleast one [A-Z], [a-z] and [0-9] and doesnot contains [@#%^&*\$] but contains [_]\n");
-
-            stdout.write("Enter your name: ");
-            profilename = stdin.readLineSync();
-
-            if (profilename == "") {
-              print("Profile name cannot be null!\n");
-              Profile();
-            }
-
-            final String? local_profile = profilename;
-
-            if (local_profile == null ||
-                !(local_profile.length >= 8 &&
-                    local_profile.length <= 20 &&
-                    local_profile.contains(RegExp(r'[_]')) &&
-                    local_profile.contains(RegExp(r'[0-9]')) &&
-                    local_profile.contains(RegExp(r'[A-Z]')) &&
-                    local_profile.contains(RegExp(r'[a-z]')))) {
-              print("Invalid format\n");
-              Profile();
-            }
-
-            dynamic check_profiles = profiles.keys.toList();
-
-            for (var check in check_profiles) {
-              if (check == profilename) {
-                print("This Profile is already exists...");
-                found = true;
-                break;
-              }
-            }
-            if (!found) {
-              profiles.update("$profilename", (value) => value,
-                  ifAbsent: () => {});
-              createprofile();
-            }
-            found = false;
+            setprofile();
+            createprofile();
           }
         } catch (e) {
           onetime = true;
@@ -167,6 +129,46 @@ class Profile {
         }
       }
     }
+  }
+
+  void setprofile() {
+    print(
+        "\n📌 Profile Name Instructions:\nLength of Proile Name [8-20] and contains atleast one [A-Z], [a-z] and [0-9] and doesnot contains [@#%^&*\$] but contains [_]\n");
+
+    stdout.write("Enter your name: ");
+    profilename = stdin.readLineSync();
+
+    if (profilename == "") {
+      print("Profile name cannot be null!\n");
+      Profile();
+    }
+
+    final String? local_profile = profilename;
+
+    if (local_profile == null ||
+        !(local_profile.length >= 8 &&
+            local_profile.length <= 20 &&
+            local_profile.contains(RegExp(r'[_]')) &&
+            local_profile.contains(RegExp(r'[0-9]')) &&
+            local_profile.contains(RegExp(r'[A-Z]')) &&
+            local_profile.contains(RegExp(r'[a-z]')))) {
+      print("Invalid format\n");
+      setprofile();
+    }
+
+    dynamic check_profiles = profiles.keys.toList();
+
+    for (var check in check_profiles) {
+      if (check == profilename) {
+        print("This Profile is already exists...");
+        found = true;
+        break;
+      }
+    }
+    if (!found) {
+      profiles.update("$profilename", (value) => value, ifAbsent: () => {});
+    }
+    found = false;
   }
 
   void setemail() {
@@ -178,7 +180,7 @@ class Profile {
     }
 
     profiles[this.profilename]
-        .update("email", (value) => value, ifAbsent: () => email);
+        .update("email", (value) => email, ifAbsent: () => email);
   }
 
   void setpassword() {
@@ -198,9 +200,9 @@ class Profile {
             localPassword.contains(RegExp(r'[a-z]')))) {
       print("Invalid format\n");
       setpassword();
+    } else {
+      print("Password Set Successfully...");
     }
-
-    print("Password Set Successfully...");
   }
 
   void setdob() {
@@ -237,20 +239,25 @@ class Profile {
       }
     }
 
-    profiles[this.profilename].update("DOB", (value) => value,
+    profiles[this.profilename].update("DOB", (value) => "$d_dob/$m_dob/$y_dob",
         ifAbsent: () => "$d_dob/$m_dob/$y_dob");
   }
 
-  void createprofile() {
+  void settype() {
     stdout.write("Profile Type: [public, private] ");
     String? profile_type = stdin.readLineSync();
     if (profile_type == "public" || profile_type == "private") {
-      profiles[this.profilename].update("Profile Type", (value) => value,
+      profiles[this.profilename].update("Profile Type", (value) => profile_type,
           ifAbsent: () => profile_type);
     } else {
       print("Please enter properly!\n");
-      createprofile();
+      settype();
     }
+  }
+
+  void createprofile() {
+    // Setting Type of Profile
+    settype();
 
     // Setting Email
     setemail();
@@ -265,16 +272,73 @@ class Profile {
   }
 
   void updateprofile() {
-    // Locha che ama
     stdout.write("Enter the name of the entity to update: ");
     String? update_entity = stdin.readLineSync();
 
-    stdout.write("Enter the new value: ");
-    dynamic new_value = stdin.readLineSync();
+    if (update_entity == "DOB") {
+      setdob();
+      print("\nProfile Successfully Updated...");
+    } else if (update_entity == "password") {
+      stdout.write("Enter your old Password: ");
+      String? old_password = stdin.readLineSync();
 
-    profiles[profilename][update_entity] = new_value;
+      if (password == old_password) {
+        setpassword();
+      } else {
+        print("Password is incorrect!");
+      }
+      print("\nProfile Successfully Updated...");
+    } else if (update_entity == "Profile Type") {
+      stdout.write("Enter the new value: ");
+      dynamic new_value = stdin.readLineSync();
 
-    print("\nProfile Successfully Updated...");
+      profiles[profilename][update_entity] = new_value;
+
+      print("\nProfile Successfully Updated...");
+    } else if (update_entity == "profile") {
+      print(
+          "\n📌 Profile Name Instructions:\nLength of Proile Name [8-20] and contains atleast one [A-Z], [a-z] and [0-9] and doesnot contains [@#%^&*\$] but contains [_]\n");
+
+      stdout.write("Enter your name: ");
+      String? newprofile = stdin.readLineSync();
+
+      if (newprofile == "") {
+        print("Profile name cannot be null!\n");
+        Profile();
+      }
+
+      if (newprofile == null ||
+          !(newprofile.length >= 8 &&
+              newprofile.length <= 20 &&
+              newprofile.contains(RegExp(r'[_]')) &&
+              newprofile.contains(RegExp(r'[0-9]')) &&
+              newprofile.contains(RegExp(r'[A-Z]')) &&
+              newprofile.contains(RegExp(r'[a-z]')))) {
+        print("Invalid format\n");
+        setprofile();
+      }
+
+      dynamic check_profiles = profiles.keys.toList();
+
+      for (var check in check_profiles) {
+        if (check == newprofile) {
+          print("This Profile is already exists...");
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        var value = profiles[profilename];
+        profiles.remove(profilename);
+        if (newprofile != null) {
+          profiles[newprofile] = value;
+          profilename = newprofile;
+        }
+      }
+      found = false;
+    } else if (update_entity == "email") {
+      setemail();
+    }
   }
 
   void deleteprofile() {
