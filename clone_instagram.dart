@@ -122,7 +122,7 @@ class Profile {
             // Create Profile
 
             print(
-                "\n📌 Profile Name Instructions:\nLength of Proile Name [8-20] and contains atleast one [A-Z], [a-z] and [0-9] and doesnot contains [@#%^&*\$]\n");
+                "\n📌 Profile Name Instructions:\nLength of Proile Name [8-20] and contains atleast one [A-Z], [a-z] and [0-9] and doesnot contains [@#%^&*\$] but contains [_]\n");
 
             stdout.write("Enter your name: ");
             profilename = stdin.readLineSync();
@@ -162,34 +162,26 @@ class Profile {
             found = false;
           }
         } catch (e) {
+          onetime = true;
           print("Enter valid input!\n");
         }
       }
     }
   }
 
-  void createprofile() {
-    stdout.write("Profile Type: [public, private] ");
-    String? profile_type = stdin.readLineSync();
-    if (profile_type == "public" || profile_type == "private") {
-      profiles[this.profilename].update("Profile Type", (value) => value,
-          ifAbsent: () => profile_type);
-    } else {
-      print("Please enter properly!\n");
-      createprofile();
-    }
-
+  void setemail() {
     stdout.write("Enter your email: ");
     String? email = stdin.readLineSync();
     if (email != null && !(email.contains("@") && email.contains(".com"))) {
       print("Invalid Format!\n");
-      profiles.remove(profilename);
-      Profile();
+      setemail();
     }
 
     profiles[this.profilename]
         .update("email", (value) => value, ifAbsent: () => email);
+  }
 
+  void setpassword() {
     print(
         "\n📌 Password Instructions:\nLength of password [8-20] and contains atleast one [A-Z], [a-z], [0-9] and [@#%^&*\$]\n");
     stdout.write("Set Strong password: ");
@@ -205,21 +197,21 @@ class Profile {
             localPassword.contains(RegExp(r'[0-9]')) &&
             localPassword.contains(RegExp(r'[a-z]')))) {
       print("Invalid format\n");
-      profiles.remove(profilename);
-      Profile();
+      setpassword();
     }
 
     print("Password Set Successfully...");
+  }
 
+  void setdob() {
     stdout.write("\nEnter your Year of Born: ");
     String? y_dob = stdin.readLineSync();
     if (y_dob != null) {
       int dob_y = int.parse(y_dob);
 
       if (!(dob_y <= 2024 && dob_y >= 0)) {
-        print("Invalid Year");
-        profiles.remove(profilename);
-        Profile();
+        print("Invalid Year\n");
+        setdob();
       }
     }
 
@@ -229,9 +221,8 @@ class Profile {
       int dob_m = int.parse(m_dob);
 
       if (!(dob_m <= 12 && dob_m >= 1)) {
-        print("Invalid Month");
-        profiles.remove(profilename);
-        Profile();
+        print("Invalid Month\n");
+        setdob();
       }
     }
 
@@ -241,14 +232,34 @@ class Profile {
       int dob_d = int.parse(d_dob);
 
       if (!(dob_d <= 31 && dob_d >= 1)) {
-        print("Invalid Day");
-        profiles.remove(profilename);
-        Profile();
+        print("Invalid Day\n");
+        setdob();
       }
     }
 
     profiles[this.profilename].update("DOB", (value) => value,
         ifAbsent: () => "$d_dob/$m_dob/$y_dob");
+  }
+
+  void createprofile() {
+    stdout.write("Profile Type: [public, private] ");
+    String? profile_type = stdin.readLineSync();
+    if (profile_type == "public" || profile_type == "private") {
+      profiles[this.profilename].update("Profile Type", (value) => value,
+          ifAbsent: () => profile_type);
+    } else {
+      print("Please enter properly!\n");
+      createprofile();
+    }
+
+    // Setting Email
+    setemail();
+
+    // Setting Password
+    setpassword();
+
+    // Setting DOB
+    setdob();
 
     print("\nProfile Successfully Created...");
   }
