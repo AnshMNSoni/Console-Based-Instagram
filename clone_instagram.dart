@@ -5,27 +5,39 @@ class Profile {
     "priyank_16": {
       "Profile Type": "private",
       "email": "patelpriyank1602@gmail.com",
-      "DOB": "16/02/2005"
+      "DOB": "16/02/2005",
+      "followers": 325,
+      "following": 500
     },
     "_nitish31": {
       "Profile Type": "public",
       "email": "nitish_talpada@gmail.com",
-      "DOB": "31/03/2005"
+      "DOB": "31/03/2005",
+      "followers": 1125,
+      "following": 700
     },
     "Yug_patel": {
       "Profile Type": "private",
       "email": "patelyug@gmail.com",
-      "DOB": "22/07/2005"
+      "DOB": "22/07/2005",
+      "followers": 725,
+      "following": 200
     },
     "prince_6_patel": {
       "Profile Type": "public",
       "email": "princepatel2005@gmail.com",
-      "DOB": "16/02/2005"
+      "DOB": "16/02/2005",
+      "followers": 5625,
+      "following": 3500
     }
   };
 
+  Map<String?, dynamic> following = {};
+
   String? profilename;
+  bool start = false;
   bool found = false;
+  bool follow_found = false;
   bool onetime = true;
   bool insideprofile = true;
   bool searchprofile = false;
@@ -38,7 +50,7 @@ class Profile {
         print("2. Your Profile");
       }
       if (onetime) {
-        print("0. Create Profile:");
+        print("0. Create Profile");
         onetime = false;
       }
 
@@ -55,21 +67,8 @@ class Profile {
 
           if (input == 1) {
             // Search Profile
-            stdout.write("\nEnter the profile name: ");
-            String? search = stdin.readLineSync();
-
-            dynamic check_profiles = profiles.keys.toList();
-
-            for (var check in check_profiles) {
-              if (check == search) {
-                print("${search}: ${profiles[search]}");
-                searchprofile = true;
-              }
-            }
-            if (!searchprofile) {
-              print("Profile Not Found!");
-            }
-            searchprofile = false;
+            following.update(profilename, (value) => value, ifAbsent: () => []);
+            findprofile();
           } else if (input == 2) {
             // Your Profile
             while (insideprofile) {
@@ -211,7 +210,7 @@ class Profile {
     if (y_dob != null) {
       int dob_y = int.parse(y_dob);
 
-      if (!(dob_y <= 2024 && dob_y >= 0)) {
+      if (!(dob_y <= 2024 && dob_y >= 0 && y_dob.length == 4)) {
         print("Invalid Year\n");
         setdob();
       }
@@ -267,6 +266,12 @@ class Profile {
 
     // Setting DOB
     setdob();
+
+    profiles[this.profilename]
+        .update("followers", (value) => value, ifAbsent: () => 0);
+
+    profiles[this.profilename]
+        .update("following", (value) => value, ifAbsent: () => 0);
 
     print("\nProfile Successfully Created...");
   }
@@ -355,6 +360,68 @@ class Profile {
       }
     } else {
       print("Password is incorrect!");
+    }
+  }
+
+  void findprofile() {
+    stdout.write("\nEnter the profile name: ");
+    String? search = stdin.readLineSync();
+
+    dynamic check_profiles = profiles.keys.toList();
+
+    for (var check in check_profiles) {
+      if (check == search) {
+        print("${search}: ${profiles[search]}");
+
+        follower_following(search, profiles[search]["Profile Type"]);
+
+        searchprofile = true;
+      }
+    }
+    if (!searchprofile) {
+      print("Profile Not Found!");
+    }
+    searchprofile = false;
+  }
+
+  void follower_following(String? search, String account_type) {
+    List<String?> already_followed = following[profilename];
+
+    if (start) {
+      for (var find in already_followed) {
+        if (find == search) {
+          if (account_type == "public") {
+            print("You are Following $search");
+            follow_found = true;
+            break;
+          } else {
+            print("Follow Request Sent to $search");
+            follow_found = true;
+            break;
+          }
+        }
+      }
+    }
+
+    start = true;
+    if (!follow_found) {
+      if (account_type == "public") {
+        stdout.write("Want to Follow $search? Type [y/n]: ");
+        String? followers = stdin.readLineSync();
+        if (followers == "y") {
+          already_followed.add(search);
+          profiles[search]["followers"] += 1;
+          profiles[profilename]["following"] += 1;
+          print("You are now Following $search");
+        }
+      } else {
+        stdout.write("Want to Follow $search? Type [y/n]: ");
+        String? followers = stdin.readLineSync();
+        if (followers == "y") {
+          already_followed.add(search);
+          print("Follow Request Sent to $search");
+        }
+      }
     }
   }
 }
