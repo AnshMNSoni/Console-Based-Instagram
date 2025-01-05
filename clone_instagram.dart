@@ -376,6 +376,7 @@ class Profile {
         follower_following(search, profiles[search]["Profile Type"]);
 
         searchprofile = true;
+        break;
       }
     }
     if (!searchprofile) {
