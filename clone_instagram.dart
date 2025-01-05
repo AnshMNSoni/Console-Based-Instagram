@@ -204,42 +204,62 @@ class Profile {
     }
   }
 
-  void setdob() {
+  int setyear() {
+    int dob_y = 0;
     stdout.write("\nEnter your Year of Born: ");
     String? y_dob = stdin.readLineSync();
     if (y_dob != null) {
-      int dob_y = int.parse(y_dob);
+      dob_y = int.parse(y_dob);
 
       if (!(dob_y <= 2024 && dob_y >= 0 && y_dob.length == 4)) {
         print("Invalid Year\n");
-        setdob();
+        setyear();
       }
     }
+    return dob_y;
+  }
+
+  int setmonth() {
+    int dob_m = 0;
 
     stdout.write("\nEnter your Month of Born: ");
     String? m_dob = stdin.readLineSync();
     if (m_dob != null) {
-      int dob_m = int.parse(m_dob);
+      dob_m = int.parse(m_dob);
 
       if (!(dob_m <= 12 && dob_m >= 1)) {
         print("Invalid Month\n");
-        setdob();
+        setmonth();
       }
     }
+    return dob_m;
+  }
+
+  int setday() {
+    int dob_d = 0;
 
     stdout.write("\nEnter your Day of Born: ");
     String? d_dob = stdin.readLineSync();
     if (d_dob != null) {
-      int dob_d = int.parse(d_dob);
+      dob_d = int.parse(d_dob);
 
       if (!(dob_d <= 31 && dob_d >= 1)) {
         print("Invalid Day\n");
-        setdob();
+        setday();
       }
     }
+    return dob_d;
+  }
 
-    profiles[this.profilename].update("DOB", (value) => "$d_dob/$m_dob/$y_dob",
-        ifAbsent: () => "$d_dob/$m_dob/$y_dob");
+  void setdob() {
+    int year = setyear();
+
+    int month = setmonth();
+
+    int day = setday();
+
+    profiles[this.profilename].update("DOB", (value) => "$day/$month/$year",
+        ifAbsent: () => "$day/$month/$year");
   }
 
   void settype() {
@@ -386,7 +406,7 @@ class Profile {
   }
 
   void follower_following(String? search, String account_type) {
-    List<String?> already_followed = following[profilename];
+    List<dynamic> already_followed = following[profilename];
 
     if (start) {
       for (var find in already_followed) {
