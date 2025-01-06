@@ -45,18 +45,18 @@
 <hr/>
 
 #### 👉 How to Use 🖥️
-- On first run, create a new profile with the required information:
+On first run, create a new profile with the required information:
 
-1️⃣ Profile Name
-2️⃣ Email
-3️⃣ Password
-4️⃣ Date of Birth (DOB)
+1️⃣ Profile Name <br/>
+2️⃣ Email <br/>
+3️⃣ Password <br/>
+4️⃣ Date of Birth (DOB) <br/>
 
-- After creating your profile, you'll be able to:
+After creating your profile, you'll be able to:
 
-1️⃣ Search for profiles.
-2️⃣ Follow profiles (once followed, the user cannot follow the same profile again).
-3️⃣ View your own profile.
+1️⃣ Search for profiles. <br/>
+2️⃣ Follow profiles (once followed, the user cannot follow the same profile again). <br/>
+3️⃣ View your own profile. <br/>
 
 <hr/>
 
