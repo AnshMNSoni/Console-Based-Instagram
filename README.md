@@ -1,6 +1,6 @@
 # Console-Based-Instagram 🔥
 
-👉 Welcome to my first `Dart` project! This is a console-based version of Instagram, where users can create a profile, follow other users, and view their own profile. It was built with a focus on handling edge cases and user input validation.
+#### 👉 Welcome to my first `Dart` project! This is a console-based version of Instagram, where users can create a profile, follow other users, and view their own profile. It was built with a focus on handling edge cases and user input validation.
 
 <hr/>
 
