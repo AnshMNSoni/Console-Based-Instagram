@@ -32,7 +32,6 @@ class Profile {
     }
   };
 
-  // Store username-password pairs for authentication
   Map<String, String> users = {
     "priyank_16": "Password123@",
     "_nitish31": "Nitish31#",
@@ -40,7 +39,6 @@ class Profile {
     "prince_6_patel": "Prince6patel&"
   };
 
-  // Store following relationships per user
   Map<String, List<String>> following = {
     "priyank_16": [],
     "_nitish31": [],
@@ -48,7 +46,7 @@ class Profile {
     "prince_6_patel": []
   };
 
-  String? currentUser; // Track the logged-in user
+  String? currentUser;
   bool start = false;
   bool follow_found = false;
   bool onetime = true;
@@ -56,12 +54,10 @@ class Profile {
   Profile() {
     while (true) {
       if (currentUser == null) {
-        // Show login/create profile menu for unauthenticated users
         print("\n1. Login");
         print("2. Create Profile");
         print("3. Exit");
       } else {
-        // Show main menu for authenticated users
         print("\nWelcome, $currentUser!");
         print("1. Search Profile");
         print("2. Your Profile");
@@ -79,7 +75,6 @@ class Profile {
         int input = int.parse(choice);
 
         if (currentUser == null) {
-          // Unauthenticated user options
           if (input == 1) {
             login();
           } else if (input == 2) {
@@ -92,7 +87,6 @@ class Profile {
             print("Invalid choice! Please select 1, 2, or 3.");
           }
         } else {
-          // Authenticated user options
           if (input == 1) {
             findprofile();
           } else if (input == 2) {
