@@ -4,47 +4,55 @@
 
 <hr/>
 
-### Features 🚀
-#### 👉 Fresh Login Experience:
+## Features
+### 👉 Fresh Login Experience:
 
 - Initially, only the "Create Profile" section is available.
 - After creating a profile, users can access the "Search Profile" and "Your Profile" sections.
 
-<hr/>
+<img width="1067" height="306" alt="image" src="https://github.com/user-attachments/assets/b831cb9e-75d6-48e0-b34c-18b3aeaed96a" />
 
-#### 👉 Create Profile:
+### 👉 Create Profile:
 
 - Includes fields like profile name, email, password, and date of birth (DOB).
 - Handles errors like strings in place of numbers, ensuring smooth user input handling.
 
-<hr/>
+<img width="1242" height="386" alt="image" src="https://github.com/user-attachments/assets/66840d6f-7723-45b0-b1a5-49187fbbb38e" />
 
-#### 👉 Follow Profiles:
+<hr>
+
+<img width="1236" height="270" alt="image" src="https://github.com/user-attachments/assets/ba98e3c8-8267-4949-99ab-ede789ba3966" />
+
+<hr>
+
+<img width="788" height="405" alt="image" src="https://github.com/user-attachments/assets/2be3454e-6f4e-46a7-9561-b4cdbaa733e8" />
+
+### 👉 Follow Profiles:
 
 - You can follow someone.
 - Once someone is followed, you can no longer follow them again.
 
 <hr/>
 
-#### 👉 Limitations ⚠️
+## 👉 Limitations
 - Users can create only one account.
 - The messaging functionality is not included.
 
 <hr/>
 
-#### 👉 Technologies Used 🛠️
+## 👉 Technologies Used
 - Dart: A programming language used to build this console-based application.
 
 <hr/>
 
-#### 👉 Setup Instructions 💻
+## 👉 Setup Instructions
 - Clone the repository to your local machine: `git clone https://github.com/your-username/console-based-instagram.git`
 
 - Navigate to the project directory: `cd console-based-instagram`
 
 <hr/>
 
-#### 👉 How to Use 🖥️
+## 👉 How to Use
 - On first run, create a new profile with the required information:
 
 1️⃣ Profile Name <br/>
@@ -60,14 +68,14 @@
 
 <hr/>
 
-#### 👉 Next Steps 🚧
+## 👉 Next Steps
 - Add multiple account support.
 - Implement messaging functionality.
 - Enhance user experience with more features.
 
 <hr/>
 
-#### 👉 Contributing 🤝
+## 👉 Contributing
 - Feel free to fork the repository, make changes, and submit `pull` requests. I welcome contributions and feedback!
 
 ## 📢 Connect with Me
@@ -80,4 +88,4 @@ If you found this project helpful or have any suggestions, feel free to connect:
 ## 📜 License
 This project is licensed under the [MIT License](LICENSE).
 
-### Thankyou 💫
+## Thankyou
